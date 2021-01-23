@@ -5,14 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".SplashActivity">
 
-    <fragment
-        android:id="@+id/nav_host_fragment_main"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_main_menu"/>
+        android:src="@drawable/splash_firebase"
+        android:scaleType="fitXY"/>
 
 </LinearLayout>
