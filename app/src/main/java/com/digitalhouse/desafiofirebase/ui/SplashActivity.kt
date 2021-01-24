@@ -1,4 +1,4 @@
-package com.digitalhouse.desafiofirebase
+package com.digitalhouse.desafiofirebase.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

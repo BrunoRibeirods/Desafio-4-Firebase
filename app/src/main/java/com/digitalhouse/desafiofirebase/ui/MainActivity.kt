@@ -1,7 +1,8 @@
-package com.digitalhouse.desafiofirebase
+package com.digitalhouse.desafiofirebase.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.digitalhouse.desafiofirebase.R
 
 class MainActivity : AppCompatActivity() {
 

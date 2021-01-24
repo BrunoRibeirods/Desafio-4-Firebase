@@ -11,4 +11,5 @@
     <color name="buttonColor">#ff5252</color>
     <color name="grey">#808080</color>
     <color name="blue">#32b6ff</color>
+    <color name="background">#dddddd</color>
 </resources>

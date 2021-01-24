@@ -1,4 +1,4 @@
-package com.digitalhouse.desafiofirebase
+package com.digitalhouse.desafiofirebase.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.digitalhouse.desafiofirebase.databinding.FragmentLoginBinding
 import com.digitalhouse.desafiofirebase.databinding.FragmentRegisterBinding
+import com.digitalhouse.desafiofirebase.ui.MainActivity
 
 
 class RegisterFragment : Fragment() {

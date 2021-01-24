@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash_firebase"
     android:fillViewport="true"
-    tools:context=".RegisterFragment">
+    tools:context=".fragments.RegisterFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
