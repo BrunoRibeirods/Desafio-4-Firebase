@@ -9,5 +9,26 @@
         android:id="@+id/homeFragment"
         android:name="com.digitalhouse.desafiofirebase.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_gameRegisterFragment"
+            app:destination="@id/gameRegisterFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cardDetailFragment"
+            app:destination="@id/cardDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameRegisterFragment"
+        android:name="com.digitalhouse.desafiofirebase.fragments.GameRegisterFragment"
+        android:label="fragment_game_register"
+        tools:layout="@layout/fragment_game_register" />
+    <fragment
+        android:id="@+id/cardDetailFragment"
+        android:name="com.digitalhouse.desafiofirebase.fragments.CardDetailFragment"
+        android:label="fragment_card_detail"
+        tools:layout="@layout/fragment_card_detail" >
+        <action
+            android:id="@+id/action_cardDetailFragment_to_gameRegisterFragment"
+            app:destination="@id/gameRegisterFragment" />
+    </fragment>
 </navigation>
