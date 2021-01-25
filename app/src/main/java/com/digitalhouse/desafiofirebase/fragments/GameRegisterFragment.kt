@@ -1,6 +1,5 @@
 package com.digitalhouse.desafiofirebase.fragments
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.digitalhouse.desafiofirebase.databinding.FragmentGameRegisterBinding
-import com.digitalhouse.desafiofirebase.models.Game
+import com.digitalhouse.desafiofirebase.entities.Game
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -102,7 +101,7 @@ class GameRegisterFragment : Fragment() {
         reference = database.getReference("Games")
     }
 
-    fun getProduct(title: String, date: String, description: String, img: String?): Game{
+    fun getProduct(title: String, date: String, description: String, img: String?): Game {
 
         return Game(title, date, description, img)
     }

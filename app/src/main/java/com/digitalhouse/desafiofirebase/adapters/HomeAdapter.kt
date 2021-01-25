@@ -8,9 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.digitalhouse.desafiofirebase.R
-import com.digitalhouse.desafiofirebase.models.Game
+import com.digitalhouse.desafiofirebase.entities.Game
 
-class HomeAdapter(private val listOfGames: List<Game>): RecyclerView.Adapter<HomeAdapter.HomeCardViewHolder>() {
+class HomeAdapter(private val listOfGames: List<Game>, val listener: OnClickGameListener): RecyclerView.Adapter<HomeAdapter.HomeCardViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeCardViewHolder {
         val itemview = LayoutInflater.from(parent.context).inflate(R.layout.item_games_home, parent, false)
 
@@ -31,10 +31,23 @@ class HomeAdapter(private val listOfGames: List<Game>): RecyclerView.Adapter<Hom
 
     override fun getItemCount() = listOfGames.size
 
-    inner class HomeCardViewHolder(view: View): RecyclerView.ViewHolder(view){
+    interface OnClickGameListener{
+        fun onClickGame(position: Int)
+    }
+
+    inner class HomeCardViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener{
+        init {
+            view.setOnClickListener(this)
+        }
         val title = view.findViewById<TextView>(R.id.tv_title_game)
         val date = view.findViewById<TextView>(R.id.tv_date_game)
         val img = view.findViewById<ImageView>(R.id.iv_img_game)
+
+        override fun onClick(p0: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION)
+                listener.onClickGame(position)
+        }
     }
 
 }

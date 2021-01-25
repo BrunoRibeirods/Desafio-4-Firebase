@@ -1,16 +1,14 @@
 package com.digitalhouse.desafiofirebase.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.digitalhouse.desafiofirebase.R
 import com.digitalhouse.desafiofirebase.databinding.FragmentCardDetailBinding
-import com.digitalhouse.desafiofirebase.databinding.FragmentHomeBinding
-import com.digitalhouse.desafiofirebase.models.Game
 import com.google.firebase.database.*
 
 
@@ -30,12 +28,23 @@ class CardDetailFragment : Fragment() {
         _binding = FragmentCardDetailBinding.inflate(inflater, container, false)
         val view = binding.root
 
+        arguments?.getString("title").let {
+            binding.titleGame.text = it
+            binding.collapsingLayout.title = it
+        }
+        arguments?.getString("date").let {
+            binding.dateGame.text = "Lançamento: " + it
+        }
+        arguments?.getString("description").let {
+            binding.descriptionGame.text = it
+        }
 
-        binding.collapsingLayout.title = ""
-        binding.titleGame.text = ""
-        binding.dateGame.text = ""
-        binding.descriptionGame.text = ""
-        //binding.ivGameImg.setImageResource()
+        arguments?.getString("img").let {
+            Glide.with(view.context).asBitmap()
+                .load(it)
+                .into(binding.ivGameImg)
+        }
+
 
 
         binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }

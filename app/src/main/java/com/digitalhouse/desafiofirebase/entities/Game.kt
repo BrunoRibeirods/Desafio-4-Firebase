@@ -1,7 +1,6 @@
-package com.digitalhouse.desafiofirebase.models
+package com.digitalhouse.desafiofirebase.entities
 
 import com.google.firebase.database.IgnoreExtraProperties
-import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @IgnoreExtraProperties
