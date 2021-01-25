@@ -95,7 +95,8 @@ class HomeFragment : Fragment(), HomeAdapter.OnClickGameListener {
         val bundle = bundleOf("title" to game.title,
                 "date" to game.date,
                 "description" to game.description,
-                "img" to game.img
+                "img" to game.img,
+                "id" to game.id
         )
 
         findNavController().navigate(R.id.action_homeFragment_to_cardDetailFragment, bundle)

@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.digitalhouse.desafiofirebase.R
 import com.digitalhouse.desafiofirebase.databinding.FragmentGameRegisterBinding
 import com.digitalhouse.desafiofirebase.entities.Game
 import com.google.firebase.database.*
@@ -37,21 +40,58 @@ class GameRegisterFragment : Fragment() {
         val view = binding.root
         config(Random.nextInt(40, 10000))
         connectDB()
-
+        var update = 0
+        var idUpdate: Int = Random.nextInt(40, 10000)
 
         binding.btnSelectPic.setOnClickListener {
             setIntent()
         }
 
-        binding.btnSaveGame.setOnClickListener {
-            val title = binding.etNameGame.text.toString()
-            val date = binding.etDateGame.text.toString()
-            val description = binding.etDescriptionGame.text.toString()
-             game = getProduct(title, date, description, imgURl)
+        arguments?.getInt("update").let {
+            if (it != null) {
+                update = it
+            }
+        }
 
-            game?.let { it1 -> sendProductDB(it1, game!!.title!!) }
+        arguments?.getInt("id").let {
+            if (it != null) {
+                idUpdate = it
+            }
+        }
 
-            activity?.onBackPressed()
+        if(update == 1 ) {
+            binding.btnSaveGame.setOnClickListener {
+                val title = binding.etNameGame.text.toString()
+                val date = binding.etDateGame.text.toString()
+                val description = binding.etDescriptionGame.text.toString()
+                if(title.isNotEmpty() && date.isNotEmpty() && description.isNotEmpty()) {
+                    game = getProduct(idUpdate, title, date, description, imgURl)
+
+                    game?.let { it1 -> UpdateProductDB(it1, game!!.id!!) }
+
+                    val bundle = bundleOf(
+                        "title" to game!!.title,
+                        "date" to game!!.date,
+                        "description" to game!!.description,
+                        "img" to game!!.img,
+                        "id" to game!!.id
+                    )
+
+                    findNavController().navigate(R.id.action_gameRegisterFragment_to_cardDetailFragment, bundle)
+                    getActivity()?.getFragmentManager()?.popBackStack()
+                }
+            }
+        }else{
+            binding.btnSaveGame.setOnClickListener {
+                val title = binding.etNameGame.text.toString()
+                val date = binding.etDateGame.text.toString()
+                val description = binding.etDescriptionGame.text.toString()
+                game = getProduct(Random.nextInt(10000, 50000), title, date, description, imgURl)
+
+                game?.let { it1 -> sendProductDB(it1, game!!.id!!) }
+
+                activity?.onBackPressed()
+            }
         }
 
         return view
@@ -101,13 +141,18 @@ class GameRegisterFragment : Fragment() {
         reference = database.getReference("Games")
     }
 
-    fun getProduct(title: String, date: String, description: String, img: String?): Game {
+    fun getProduct(id: Int, title: String, date: String, description: String, img: String?): Game {
 
-        return Game(title, date, description, img)
+        return Game(id ,title, date, description, img)
     }
 
-    fun sendProductDB(game: Game, title: String): String{
-        var res = reference.child(title).setValue(game)
+    fun sendProductDB(game: Game, id:Int): String{
+        var res = reference.child(id.toString()).setValue(game)
+        return res.toString()
+    }
+
+    fun UpdateProductDB(game: Game, id:Int): String{
+        var res = reference.child(id.toString()).setValue(game)
         return res.toString()
     }
 

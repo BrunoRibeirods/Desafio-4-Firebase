@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.digitalhouse.desafiofirebase.R
@@ -14,10 +15,9 @@ import com.google.firebase.database.*
 
 class CardDetailFragment : Fragment() {
 
-    lateinit var database: FirebaseDatabase
-    lateinit var reference: DatabaseReference
     private var _binding: FragmentCardDetailBinding? =  null
     private val binding get() = _binding!!
+
 
 
     override fun onCreateView(
@@ -27,6 +27,7 @@ class CardDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentCardDetailBinding.inflate(inflater, container, false)
         val view = binding.root
+        val id: Int
 
         arguments?.getString("title").let {
             binding.titleGame.text = it
@@ -39,6 +40,10 @@ class CardDetailFragment : Fragment() {
             binding.descriptionGame.text = it
         }
 
+        arguments?.getInt("id").let {
+             id = it!!
+        }
+
         arguments?.getString("img").let {
             Glide.with(view.context).asBitmap()
                 .load(it)
@@ -47,17 +52,14 @@ class CardDetailFragment : Fragment() {
 
 
 
-        binding.toolbar.setNavigationOnClickListener { activity?.onBackPressed() }
+        binding.toolbar.setNavigationOnClickListener { findNavController().navigate(R.id.action_cardDetailFragment_to_homeFragment) }
 
         binding.floatingGameEdit.setOnClickListener {
-            findNavController().navigate(R.id.action_cardDetailFragment_to_gameRegisterFragment)
+            findNavController().navigate(R.id.action_cardDetailFragment_to_gameRegisterFragment, bundleOf("id" to id, "update" to 1))
         }
 
         return view
     }
-
-
-
 
 
 }
