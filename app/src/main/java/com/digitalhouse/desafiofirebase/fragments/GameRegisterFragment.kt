@@ -79,6 +79,8 @@ class GameRegisterFragment : Fragment() {
 
                     findNavController().navigate(R.id.action_gameRegisterFragment_to_cardDetailFragment, bundle)
                     getActivity()?.getFragmentManager()?.popBackStack()
+                }else{
+                    Toast.makeText(view.context, "Preencha todos os dados", Toast.LENGTH_SHORT).show()
                 }
             }
         }else{
@@ -86,11 +88,16 @@ class GameRegisterFragment : Fragment() {
                 val title = binding.etNameGame.text.toString()
                 val date = binding.etDateGame.text.toString()
                 val description = binding.etDescriptionGame.text.toString()
-                game = getProduct(Random.nextInt(10000, 50000), title, date, description, imgURl)
+                if (title.isNotEmpty() && date.isNotEmpty() && description.isNotEmpty()) {
+                    game =
+                        getProduct(Random.nextInt(10000, 50000), title, date, description, imgURl)
 
-                game?.let { it1 -> sendProductDB(it1, game!!.id!!) }
+                    game?.let { it1 -> sendProductDB(it1, game!!.id!!) }
 
-                activity?.onBackPressed()
+                    activity?.onBackPressed()
+                }else{
+                    Toast.makeText(view.context, "Preencha todos os dados", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -114,7 +121,7 @@ class GameRegisterFragment : Fragment() {
             val uploadTask = data?.data?.let { storageReference.putFile(it) }
             uploadTask?.continueWithTask {task ->
                 if (task.isSuccessful) {
-                    Toast.makeText(context, "Chegando", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Carregando", Toast.LENGTH_SHORT).show()
                 }
                 storageReference.downloadUrl
             }?.addOnCompleteListener { task ->
@@ -122,7 +129,6 @@ class GameRegisterFragment : Fragment() {
                     val downloadUri = task.result
                     val url = downloadUri.toString()
                         .substring(0, downloadUri.toString().indexOf("&token"))
-                    Log.i("Link Direto ", url)
 
                     imgURl = url
 
