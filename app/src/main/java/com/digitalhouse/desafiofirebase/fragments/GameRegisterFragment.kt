@@ -15,6 +15,7 @@ import com.digitalhouse.desafiofirebase.models.Game
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlin.random.Random
 
 
 class GameRegisterFragment : Fragment() {
@@ -27,7 +28,6 @@ class GameRegisterFragment : Fragment() {
     private var imgURl: String? = null
     private var game: Game? = null
     private val CODE_IMG = 1000
-    private var ID = 1000
 
 
 
@@ -36,7 +36,7 @@ class GameRegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentGameRegisterBinding.inflate(inflater, container, false)
         val view = binding.root
-        config(ID)
+        config(Random.nextInt(40, 10000))
         connectDB()
 
 
@@ -59,7 +59,6 @@ class GameRegisterFragment : Fragment() {
     }
 
     fun config(id: Int){
-        ID++
         storageReference = FirebaseStorage.getInstance().getReference(id.toString())
     }
 

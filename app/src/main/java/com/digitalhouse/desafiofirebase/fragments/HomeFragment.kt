@@ -1,6 +1,7 @@
 package com.digitalhouse.desafiofirebase.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -25,11 +26,9 @@ class HomeFragment : Fragment() {
     lateinit var reference: DatabaseReference
     private var _binding: FragmentHomeBinding? =  null
     private val binding get() = _binding!!
+    lateinit var listOfGames: MutableList<Game>
 
-    override fun onStart() {
-        super.onStart()
-        readData()
-    }
+
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +37,15 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
         connectDB()
+        readData()
 
         binding.btnRegisterGames.setOnClickListener {
             findNavController().navigate(R.id.action_homeFragment_to_gameRegisterFragment)
+        }
+
+        binding.refreshLayout.setOnRefreshListener {
+           readData()
+            Handler().postDelayed({}, 1000)
         }
 
 
@@ -56,32 +61,33 @@ class HomeFragment : Fragment() {
     }
 
     fun readData(){
-        val listOfGames = mutableListOf<Game>()
+        listOfGames = mutableListOf()
         reference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                listOfGames = mutableListOf()
                 if (dataSnapshot.exists()) {
                     dataSnapshot.children.forEach {
                         val game = it.getValue(Game::class.java)
                         Log.i("game", game.toString())
                         if (game != null) {
                             listOfGames.add(game)
-                        }
-                        binding.rcGamesHome.apply {
-                            adapter = HomeAdapter(listOfGames)
-                            layoutManager = GridLayoutManager(context, 2)
-                            setHasFixedSize(true)
+
                         }
 
                     }
+
                 }
-
-
-
+                binding.rcGamesHome.apply {
+                    adapter = HomeAdapter(listOfGames)
+                    layoutManager = GridLayoutManager(context, 2)
+                    setHasFixedSize(true)
+                }
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.i("error ", error.toString())
             }
         })
+
 
     }
 
